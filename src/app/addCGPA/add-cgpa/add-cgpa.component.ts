@@ -13,6 +13,7 @@ export class AddCGPAComponent implements OnInit {
   }
 
   isLoading = false;
+  year: any;
 
   constructor(public authService: AuthService) {}
 

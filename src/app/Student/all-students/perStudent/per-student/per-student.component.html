@@ -1,1 +1,33 @@
-<p>per-student works!</p>
+<mat-card>
+    <div id="name">
+        Pulock Das
+    </div>
+
+    <div id="Registration">
+        2017831046
+    </div>
+    
+    <div id="Batch">
+        17 Batch (3rd Year)
+    </div>
+
+</mat-card>
+
+<h2>All Courses</h2>
+<hr>
+
+<mat-expansion-panel *ngFor="let course of courses">
+    <mat-expansion-panel-header>
+        <div class="header">{{ course.title }}</div> ( 
+        <div class="header">{{ course.year }}</div> )
+    </mat-expansion-panel-header>
+
+    <p><b>Total Credit: </b>{{ course.credit }}</p>
+    <p><b>Taken By: </b>{{ course.teacherName }}</p>
+    <p><b>Department: </b>{{ course.dept }}</p>
+    <p><b>CGPA Got: </b>{{ course.cgpa }}</p>
+
+    <mat-action-row>
+        <a mat-button color="primary">Update CGPA</a>
+    </mat-action-row>
+</mat-expansion-panel>

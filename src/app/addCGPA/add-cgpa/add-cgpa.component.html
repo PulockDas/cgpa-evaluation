@@ -1,14 +1,15 @@
 <mat-card>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <form (submit)="onSavePost(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+    <form (submit)="onSavePost(loginForm)" #loginForm="ngForm" *ngIf="!isLoading" #yearInput>
         <mat-form-field appearance="fill">
-            <mat-label>Select</mat-label>
-            <mat-select>
+            <mat-label>Select Year</mat-label>
+            <mat-select required [(ngModel)]="year">
                 <mat-option value="one">1st Year</mat-option>
                 <mat-option value="two">2nd Year</mat-option>
                 <mat-option value="three">3rd Year</mat-option>
                 <mat-option value="four">4th Year</mat-option>
             </mat-select>
+            <mat-error *ngIf="yearInput.invalid">Please select a valid year.</mat-error>
         </mat-form-field>
 
         <mat-form-field>
@@ -26,6 +27,7 @@
                 required>
             <mat-error *ngIf="cgpaInput.invalid">Please enter a valid cgpa</mat-error>
         </mat-form-field>
-        <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Save</button>
+        <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Add</button>
+        <button mat-raised-button color="accent" type="button" *ngIf="!isLoading">Save</button>
     </form>
 </mat-card>
