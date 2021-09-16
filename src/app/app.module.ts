@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatTableModule } from '@angular/material/table';
     PerStudentComponent,
     AuthComponent,
     AddCGPAComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
