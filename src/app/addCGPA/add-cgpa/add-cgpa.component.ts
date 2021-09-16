@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/app/Authentication/auth/auth.service';
 
 @Component({
   selector: 'app-add-cgpa',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddCGPAComponent implements OnInit {
 
-  constructor() { }
-
   ngOnInit(): void {
+  }
+
+  isLoading = false;
+
+  constructor(public authService: AuthService) {}
+
+  onSavePost(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    this.authService.login(form.value.email, form.value.password);
   }
 
 }

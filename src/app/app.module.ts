@@ -17,6 +17,8 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { FormsModule } from '@angular/forms';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    FormsModule
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

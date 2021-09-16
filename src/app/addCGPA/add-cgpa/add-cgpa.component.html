@@ -1,1 +1,31 @@
-<p>add-cgpa works!</p>
+<mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <form (submit)="onSavePost(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+        <mat-form-field appearance="fill">
+            <mat-label>Select</mat-label>
+            <mat-select>
+                <mat-option value="one">1st Year</mat-option>
+                <mat-option value="two">2nd Year</mat-option>
+                <mat-option value="three">3rd Year</mat-option>
+                <mat-option value="four">4th Year</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput name="courseId" ngModel type="text" placeholder="CourseId" required>
+            <!-- <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error> -->
+        </mat-form-field>
+        
+        <mat-form-field>
+            <input pattern="[0-9]+" matInput name="studentId" ngModel #regInput="ngModel" placeholder="StudentId" required>
+            <mat-error *ngIf="regInput.invalid">Please enter a valid Registration Number.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input pattern="[0-9]+([\.,][0-9]+)?" name="cgpa" ngModel #cgpaInput="ngModel" matInput placeholder="CGPA"
+                required>
+            <mat-error *ngIf="cgpaInput.invalid">Please enter a valid cgpa</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Save</button>
+    </form>
+</mat-card>
