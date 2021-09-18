@@ -3,7 +3,7 @@
     <form (submit)="onSavePost(loginForm)" #loginForm="ngForm" *ngIf="!isLoading" #yearInput>
         <mat-form-field appearance="fill">
             <mat-label>Select Year</mat-label>
-            <mat-select required [(ngModel)]="year">
+            <mat-select required [(ngModel)]="year" name="year">
                 <mat-option value="one">1st Year</mat-option>
                 <mat-option value="two">2nd Year</mat-option>
                 <mat-option value="three">3rd Year</mat-option>

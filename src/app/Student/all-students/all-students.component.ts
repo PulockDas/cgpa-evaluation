@@ -32,10 +32,10 @@ export class AllStudentsComponent implements OnInit {
   // ];
 
   students: Student[] = [
-    // {registration: '2017831001', name: 'Hydrogen', totalCredit: "1.0079", cgpa: '3.9'},
-    // {registration: '2017831002', name: 'Helium', totalCredit: "1.0079", cgpa: '3.9'},
-    // {registration: '2017831003', name: 'Lithium', totalCredit: "1.0079", cgpa: '3.85'},
-    // {registration: '2017831004', name: 'Beryllium', totalCredit: "9.0122", cgpa: '3.85'},
+    {registration: '2017831001', name: 'Hydrogen', totalCredit: "1.0079", cgpa: '3.9'},
+    {registration: '2017831002', name: 'Helium', totalCredit: "1.0079", cgpa: '3.9'},
+    {registration: '2017831003', name: 'Lithium', totalCredit: "1.0079", cgpa: '3.85'},
+    {registration: '2017831004', name: 'Beryllium', totalCredit: "9.0122", cgpa: '3.85'},
   ];
   private studentSub: Subscription = new Subscription();
 
