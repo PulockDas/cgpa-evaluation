@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Batch } from './batch.model';
-import { StdentService } from './stdent.service';
+import { StudentService } from './student.service';
 import { Student } from './student.model';
 
 @Component({
@@ -12,11 +11,14 @@ import { Student } from './student.model';
 export class AllStudentsComponent implements OnInit {
 
   batches = [
-    {title: "1st Year" , description: 'It\'s the 19th batch of SWE'},
-    {title: "2nd Year" , description: 'It\'s the 18th batch of SWE'},
-    {title: "3rd Year" , description: 'It\'s the 17th batch of SWE'},
-    {title: "4th Year" , description: 'It\'s the 16th batch of SWE'},
+    {title: "1st" , description: 'It\'s the 19th batch of SWE'},
+    {title: "2nd" , description: 'It\'s the 18th batch of SWE'},
+    {title: "3rd" , description: 'It\'s the 17th batch of SWE'},
+    {title: "4th" , description: 'It\'s the 16th batch of SWE'},
   ];
+
+  isLoading: boolean = true;
+  studentsSub: any;
 
   // ELEMENT_DATA = [
   //   {registration: '2017831001', name: 'Hydrogen', totalCredit: 1.0079, cgpa: 3.9},
@@ -37,22 +39,30 @@ export class AllStudentsComponent implements OnInit {
     {registration: '2017831003', name: 'Lithium', totalCredit: "1.0079", cgpa: '3.85'},
     {registration: '2017831004', name: 'Beryllium', totalCredit: "9.0122", cgpa: '3.85'},
   ];
-  private studentSub: Subscription = new Subscription();
 
   displayedColumns: string[] = ['registration', 'name', 'totalCredit', 'cgpa'];
 
-  constructor(public studentService: StdentService) { }
+  constructor(public studentService: StudentService) { }
 
   ngOnInit(): void {
-    this.studentService.getStudents();
-    this.studentSub = this.studentService.getStudentUpdateListener()
-      .subscribe((students: Student[]) => {
-        this.students = students;
-      });
+
   }
 
   showDetails(reg: string){
 
+  }
+
+  fetch(batch: string) {
+    console.log("hello");
+    this.isLoading = true;
+    this.students = this.students.splice(0, this.students.length);
+    this.studentService.getStudents(batch);
+
+    this.studentsSub = this.studentService.getStudentsUpdateListener()
+    .subscribe((studentData: { students: Student[]}) => {
+      this.isLoading = false;
+      this.students = studentData.students;
+    });
   }
 
 }

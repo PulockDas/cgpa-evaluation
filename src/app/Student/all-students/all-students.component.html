@@ -2,14 +2,17 @@
 <!-- <mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading"> -->
 <mat-accordion>
 
-    <mat-expansion-panel *ngFor="let batch of batches">
+    <mat-expansion-panel *ngFor="let batch of batches" (opened)="fetch(batch.title)">
+        
         <mat-expansion-panel-header>
-            {{ batch.title }}
+            {{ batch.title }} Year
         </mat-expansion-panel-header>
-
+        
         <p>{{ batch.description }}</p>
-
-        <mat-action-row>
+        
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        
+        <mat-action-row *ngIf="!isLoading">
             <!-- <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
       <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button> -->
             <!-- <a mat-button color="primary">Details</a> -->

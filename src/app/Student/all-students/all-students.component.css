@@ -11,3 +11,7 @@
   .mat-row:hover .mat-cell {
     border-color: currentColor;
   }
+
+  mat-spinner {
+    margin: auto;
+  }
