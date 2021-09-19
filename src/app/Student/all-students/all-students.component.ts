@@ -49,7 +49,7 @@ export class AllStudentsComponent implements OnInit {
   }
 
   showDetails(reg: string){
-
+    console.log(reg);
   }
 
   fetch(batch: string) {
