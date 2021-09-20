@@ -7,9 +7,9 @@ import { PerStudentComponent } from './Student/all-students/perStudent/per-stude
 
 const routes: Routes = [
   { path: "", component: AllStudentsComponent },
-  { path: "create", component: AddCGPAComponent },
+  { path: "create/:yearId", component: AddCGPAComponent },
   { path: "edit/:id", component: AddCGPAComponent },
-  { path: ":studentId", component: PerStudentComponent },
+  { path: "student/:studentId", component: PerStudentComponent },
   { path: "login", component: AuthComponent },
   { path: "signup", component: AuthComponent },
 ];

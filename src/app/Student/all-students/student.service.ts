@@ -63,4 +63,11 @@ export class StudentService {
     return this.http.get<{allcourses: Course[], cgpa: string[]}>("http://localhost:3000/api/courses/" + id);
   }
 
+  getStudentsbyYear(year: string){
+    return this.http.get<{students: any}>("http://localhost:3000/api/students_year/"+year);
+  }
+
+  getCoursesbyYear(year: string){
+    return this.http.get<{courses: any}>("http://localhost:3000/api/courses_year/"+year);
+  }
 }

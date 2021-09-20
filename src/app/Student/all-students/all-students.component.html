@@ -46,7 +46,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row
                     *matRowDef="let row; columns: displayedColumns;"
-                    (click)="showDetails(row._id)" [routerLink]="['/', row._id]">
+                    (click)="showDetails(row._id)" [routerLink]="['/student', row._id]">
                 </tr>
             </table>
 

@@ -1,7 +1,7 @@
 <mat-card>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
     <form (submit)="onSavePost(loginForm)" #loginForm="ngForm" *ngIf="!isLoading" #yearInput>
-        <mat-form-field appearance="fill">
+        <!-- <mat-form-field appearance="fill">
             <mat-label>Select Year</mat-label>
             <mat-select required [(ngModel)]="year" name="year">
                 <mat-option value="one">1st Year</mat-option>
@@ -10,23 +10,41 @@
                 <mat-option value="four">4th Year</mat-option>
             </mat-select>
             <mat-error *ngIf="yearInput.invalid">Please select a valid year.</mat-error>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="fill">
+            <mat-label>Select StudentId</mat-label>
+            <mat-select required [(ngModel)]="reg" name="reg">
+                <mat-option *ngFor="let student of allowedStudents">{{ student.registration }}</mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="reg.invalid">Please select a valid registration.</mat-error> -->
         </mat-form-field>
 
-        <mat-form-field>
-            <input matInput name="courseId" ngModel type="text" placeholder="CourseId" required>
-            <!-- <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error> -->
+        <mat-form-field appearance="fill">
+            <mat-label>Select Course</mat-label>
+            <mat-select required [(ngModel)]="cours" name="cours">
+                <mat-option *ngFor="let course of allowedCourses">{{ course.courseId }} - {{ course.courseTitle }}
+                </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="cours.invalid">Please select a valid course.</mat-error> -->
         </mat-form-field>
-        
-        <mat-form-field>
+
+        <!-- <mat-form-field>
+            <input matInput name="courseId" ngModel type="text" placeholder="CourseId" required>
+            <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+        </mat-form-field> -->
+
+        <!-- <mat-form-field>
             <input pattern="[0-9]+" matInput name="studentId" ngModel #regInput="ngModel" placeholder="StudentId" required>
             <mat-error *ngIf="regInput.invalid">Please enter a valid Registration Number.</mat-error>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <mat-form-field>
             <input pattern="[0-9]+([\.,][0-9]+)?" name="cgpa" ngModel #cgpaInput="ngModel" matInput placeholder="CGPA"
                 required>
             <mat-error *ngIf="cgpaInput.invalid">Please enter a valid cgpa</mat-error>
         </mat-form-field>
+        
         <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading">Add</button>
         <button mat-raised-button color="accent" type="button" *ngIf="!isLoading">Save</button>
     </form>

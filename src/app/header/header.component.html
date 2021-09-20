@@ -1,20 +1,34 @@
 <mat-toolbar color="primary">
-    <span>
-      <a routerLink="/">MyMessages</a>
-    </span>
-    <span class="spacer"></span>
-    <ul>
-      <li *ngIf="userIsAuthenticated">
-        <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Entry</a>
-      </li>
-      <li *ngIf="!userIsAuthenticated">
-        <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
-      </li>
-      <li *ngIf="!userIsAuthenticated">
-        <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Signup</a>
-      </li>
-      <li *ngIf="userIsAuthenticated">
-        <button mat-button (click)="onLogout()">Logout</button>
-      </li>
-    </ul>
-  </mat-toolbar>
+  <span>
+    <a routerLink="/">MyMessages</a>
+  </span>
+  <span class="spacer"></span>
+  <ul>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/create/1st" routerLinkActive="mat-accent">1st Year</a>
+    </li>
+    <li>
+      <a mat-button routerLink="/create/2nd" routerLinkActive="mat-accent">2nd Year</a>
+    </li>
+
+    <li>
+      <a mat-button routerLink="/create/3rd" routerLinkActive="mat-accent">3rd Year</a>
+    </li>
+
+    <li>
+      <a mat-button routerLink="/create/4th" routerLinkActive="mat-accent">4th Year</a>
+    </li>
+
+    <li *ngIf="userIsAuthenticated">
+      <button mat-button (click)="onLogout()">Logout</button>
+    </li>
+
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Signup</a>
+    </li>
+
+  </ul>
+</mat-toolbar>

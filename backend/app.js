@@ -91,6 +91,30 @@ app.get("/api/courses/:id", (req, res, next) => {
     } );
 });
 
+app.get("/api/students_year/:year", (req, res, next) => {
+  Student.find({year: req.params.year}).select('registration')
+  .then(data => {
+    if(data){
+      res.status(200).json({students: data});
+    }
+    else{
+      res.status(404).json({message: "Not Found"});
+    }
+  });
+});
+
+app.get("/api/courses_year/:year", (req, res, next) => {
+  Course.find({year: req.params.year}).select({'courseId': 1, 'courseTitle': 1})
+  .then(data => {
+    if(data){
+      res.status(200).json({courses: data});
+    }
+    else{
+      res.status(404).json({message: "Not Found"});
+    }
+  });
+});
+
 
 
 module.exports = app;
