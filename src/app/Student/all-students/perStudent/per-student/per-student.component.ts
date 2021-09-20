@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Course } from '../../Course.model';
 import { Student } from '../../student.model';
 import { StudentService } from '../../student.service';
 
@@ -10,37 +11,35 @@ import { StudentService } from '../../student.service';
 })
 export class PerStudentComponent implements OnInit {
 
-  courses = [
-    {
-      id: "SWE 221",
-      title: "Data Structure",
-      year: "1st Year",
-      credit: '3',
-      teacherId: "sayma1",
-      teacherName: "Sayma Sultana Chowdhury",
-      dept: "SWE",
-      cgpa: '3.75'
-    },
-    {
-      id: "SWE 221",
-      title: "Data Structure",
-      year: "1st Year",
-      credit: '3',
-      teacherId: "sayma1",
-      teacherName: "Sayma Sultana Chowdhury",
-      dept: "SWE",
-      cgpa: '3.75'
-    },
-    {
-      id: "SWE 221",
-      title: "Data Structure",
-      year: "1st Year",
-      credit: '3',
-      teacherId: "sayma1",
-      teacherName: "Sayma Sultana Chowdhury",
-      dept: "SWE",
-      cgpa: '3.75'
-    }
+  courses: Course[] = [
+    // {
+    //   _id: "SWE 221",
+    //   courseId: "SWE 221",
+    //   courseTitle: "Data Structure",
+    //   credit: "3",
+    //   teacherId: "sayma1",
+    //   year: '1st',
+    // },
+    // {
+    //   _id: "SWE 221",
+    //   courseId: "SWE 221",
+    //   courseTitle: "Data Structure",
+    //   credit: "3",
+    //   teacherId: "sayma1",
+    //   year: '1st',
+    // },
+    // {
+    //   _id: "SWE 221",
+    //   courseId: "SWE 221",
+    //   courseTitle: "Data Structure",
+    //   credit: "3",
+    //   teacherId: "sayma1",
+    //   year: '1st',
+    // }
+  ];
+
+  gpa: any=[
+    // '4.0', '3.5', '3.75'
   ];
 
   studentId: any;
@@ -61,7 +60,7 @@ export class PerStudentComponent implements OnInit {
         this.studentId = paramMap.get("studentId");
         this.isLoading = true;
         this.studentService.getStudent(this.studentId).subscribe(studentData => {
-          
+
           if (studentData) {
             this.isLoading = false;
             this.student = {
@@ -75,8 +74,20 @@ export class PerStudentComponent implements OnInit {
             console.log(this.student);
           }
         });
+
+        this.studentService.getCourses(this.studentId)
+        .subscribe(courseData => {
+
+          if (courseData) {
+            this.courses = courseData.allcourses;
+            this.gpa = courseData.cgpa;
+
+            console.log(this.courses);
+          }
+        });
+
       }
-    })
+    });
   }
 
 }

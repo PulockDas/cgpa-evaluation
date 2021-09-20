@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Batch } from './batch.model';
 import { StudentService } from './student.service';
 import { Student } from './student.model';
 
