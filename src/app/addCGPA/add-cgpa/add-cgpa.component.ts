@@ -41,7 +41,9 @@ export class AddCGPAComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.authService.login(form.value.email, form.value.password);
+    console.log(form.value);
+    this.studentService.postCGPA(form.value.reg, form.value.cours, form.value.cgpa);
+    // this.authService.login(form.value.email, form.value.password);
   }
 
 }

@@ -15,7 +15,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Select StudentId</mat-label>
             <mat-select required [(ngModel)]="reg" name="reg">
-                <mat-option *ngFor="let student of allowedStudents">{{ student.registration }}</mat-option>
+                <mat-option *ngFor="let student of allowedStudents; let i = index" value = {{allowedStudents[i]._id}}>{{ student.registration }}</mat-option>
             </mat-select>
             <!-- <mat-error *ngIf="reg.invalid">Please select a valid registration.</mat-error> -->
         </mat-form-field>
@@ -23,7 +23,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Select Course</mat-label>
             <mat-select required [(ngModel)]="cours" name="cours">
-                <mat-option *ngFor="let course of allowedCourses">{{ course.courseId }} - {{ course.courseTitle }}
+                <mat-option *ngFor="let course of allowedCourses; let i = index" value = {{allowedCourses[i]._id}} >{{ course.courseId }} - {{ course.courseTitle }}
                 </mat-option>
             </mat-select>
             <!-- <mat-error *ngIf="cours.invalid">Please select a valid course.</mat-error> -->

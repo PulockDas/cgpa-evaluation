@@ -1,4 +1,6 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+
 const Course = require("./models/course");
 const Student = require("./models/student");
 const Student_Course = require("./models/student_course");
@@ -16,11 +18,14 @@ mongoose.connect("mongodb+srv://max:ddEG5tU5ZsobiBLA@cluster0.70221.mongodb.net/
 
 db = mongoose.connection;
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
-    "Access-Control-Allow-Header",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -28,6 +33,9 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+
+// all get end points
 
 app.get("/api/courses", (req, res, next) => {
   const batch = req.query.batch;
@@ -113,6 +121,30 @@ app.get("/api/courses_year/:year", (req, res, next) => {
       res.status(404).json({message: "Not Found"});
     }
   });
+});
+
+
+// all post end points
+
+app.post( "/api/student_year", (req, res) => {
+
+    console.log(req.body.studentId);
+    console.log(req.body.cgpa);
+    console.log(req.body.courseId);
+    const student_course = new Student_Course({
+      studentId: req.body.studentId,
+      courseId: req.body.courseId,
+      cgpa: req.body.cgpa
+    });
+    student_course.save().then(createdRecord => {
+      res.status(201).json({
+        message: "Data added successfully",
+        data: {
+          ...createdRecord,
+          id: createdRecord._id
+        }
+      });
+    });
 });
 
 

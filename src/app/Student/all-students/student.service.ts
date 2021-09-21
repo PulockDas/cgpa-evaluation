@@ -6,16 +6,21 @@ import { map } from "rxjs/operators";
 import { Student } from './student.model';
 import { Subject } from 'rxjs';
 import { Course } from './Course.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   private students: Student[] = [];
   private studentsUpdated = new Subject<{ students: Student[] }>();
+
+  
+  
+  // All get methods
 
   getStudents(batch: string) {
     const queryParams = `?batch=${batch}`;
@@ -69,5 +74,22 @@ export class StudentService {
 
   getCoursesbyYear(year: string){
     return this.http.get<{courses: any}>("http://localhost:3000/api/courses_year/"+year);
+  }
+
+
+  // Post Methods
+
+  postCGPA(studentId: string, courseId: string, cgpa: string){
+    const postData = {
+      'studentId': studentId,
+      'courseId': courseId,
+      'cgpa': cgpa
+    }
+    console.log(postData);
+    this.http
+      .post<{ message: string; data: any }>( "http://localhost:3000/api/student_year", postData)
+      .subscribe(responseData => {
+        this.router.navigate(["/"]);
+      });
   }
 }
