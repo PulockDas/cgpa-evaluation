@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Update Box</h1>
+<!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
+<div mat-dialog-content>
+  <p>Enter your new gpa</p>
+  <mat-form-field appearance="fill">
+    <mat-label>New GPA</mat-label>
+    <input pattern="[0-9]+([\.,][0-9]+)?" matInput [(ngModel)]="data.gpa" name="gpa" #cgpaInput="ngModel" required>
+    <mat-error *ngIf="cgpaInput.invalid">Please enter a valid gpa</mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.gpa" [disabled]="cgpaInput.invalid" cdkFocusInitial>Ok</button>
+</div>

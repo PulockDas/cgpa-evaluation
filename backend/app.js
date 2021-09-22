@@ -6,6 +6,7 @@ const Student = require("./models/student");
 const Student_Course = require("./models/student_course");
 
 const mongoose = require('mongoose');
+const student_course = require("./models/student_course");
 const app = express();
 
 mongoose.connect("mongodb+srv://max:ddEG5tU5ZsobiBLA@cluster0.70221.mongodb.net/cgpaDataBase?retryWrites=true&w=majority")
@@ -25,7 +26,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization, Content-Length, X-Requested-With , yourHeaderFeild"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -86,11 +87,13 @@ app.get("/api/courses/:id", (req, res, next) => {
       if(courses){
         const answer = [];
         const cgpa = [];
+        const id = [];
         courses.forEach(element => {
           answer.push(element.courseId);
           cgpa.push(element.cgpa);
+          id.push(element._id);
         })
-        res.status(200).json({'allcourses': answer, 'cgpa': cgpa});
+        res.status(200).json({'allcourses': answer, 'cgpa': cgpa, 'id': id});
         console.log(answer, cgpa);
       }
       else{
@@ -147,6 +150,14 @@ app.post( "/api/student_year", (req, res) => {
     });
 });
 
+app.put("/api/student_course/:id", (req, res) => {
+  student_course.updateOne({ _id: req.params.id }, {cgpa: req.body.gpa})
+  .then(() => {
+    res.status(201).json({message: "Updated successfully!"});
+  })
+
+  res.json({message: "gpa updated successfully!"});
+})
 
 
 module.exports = app;

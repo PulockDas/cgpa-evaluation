@@ -7,6 +7,7 @@ import { AllStudentsComponent } from './Student/all-students/all-students.compon
 import { PerStudentComponent } from './Student/all-students/perStudent/per-student/per-student.component';
 import { AuthComponent } from './Authentication/auth/auth.component';
 import { AddCGPAComponent } from './addCGPA/add-cgpa/add-cgpa.component';
+import { DialogOverviewExampleDialog } from './Student/all-students/perStudent/per-student/dialog_box/dialog-overview-example.component'
 
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
@@ -23,7 +24,7 @@ import { MatTableModule } from '@angular/material/table';
 import { HeaderComponent } from './header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     AuthComponent,
     AddCGPAComponent,
     HeaderComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatSelectModule,
     MatTableModule,
     HttpClientModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

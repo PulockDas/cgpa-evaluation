@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class StudentService {
+  [x: string]: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -65,7 +66,7 @@ export class StudentService {
   }
 
   getCourses(id: string){
-    return this.http.get<{allcourses: Course[], cgpa: string[]}>("http://localhost:3000/api/courses/" + id);
+    return this.http.get<{allcourses: Course[], cgpa: string[], id: string}>("http://localhost:3000/api/courses/" + id);
   }
 
   getStudentsbyYear(year: string){
@@ -92,4 +93,12 @@ export class StudentService {
         this.router.navigate(["/"]);
       });
   }
+
+
+  //patch request
+
+  patchGPA(id: string, data: {gpa: string}){
+    return this.http.put<{message: string}>("http://localhost:3000/api/student_course/" + id, data);
+  }
+
 }

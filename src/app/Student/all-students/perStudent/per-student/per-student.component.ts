@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../Course.model';
 import { Student } from '../../student.model';
 import { StudentService } from '../../student.service';
+import { DialogOverviewExampleDialog } from './dialog_box/dialog-overview-example.component';
 
 @Component({
   selector: 'app-per-student',
@@ -42,6 +44,8 @@ export class PerStudentComponent implements OnInit {
     // '4.0', '3.5', '3.75'
   ];
 
+  id: any = [];
+
   studentId: any;
   isLoading: any;
   student: Student = {
@@ -52,7 +56,9 @@ export class PerStudentComponent implements OnInit {
     year: "3rd"
   };
 
-  constructor(public route: ActivatedRoute, public studentService: StudentService) { }
+  updatedgpa: string = '';
+
+  constructor(public route: ActivatedRoute, public studentService: StudentService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -81,11 +87,35 @@ export class PerStudentComponent implements OnInit {
           if (courseData) {
             this.courses = courseData.allcourses;
             this.gpa = courseData.cgpa;
+            this.id = courseData.id;
 
             console.log(this.courses);
           }
         });
 
+      }
+    });
+  }
+
+  openDialog(id: string): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '250px',
+      data: {gpa: this.updatedgpa}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.updatedgpa = result;
+
+      console.log(this.updatedgpa);
+
+      if(this.updatedgpa){
+        this.studentService.patchGPA(id, {gpa: this.updatedgpa})
+        .subscribe((response) => {
+          console.log("successfull");
+
+          window.location.reload();
+        });
       }
     });
   }

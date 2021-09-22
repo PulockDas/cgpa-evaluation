@@ -8,10 +8,10 @@
     </div>
 
     <div id="Batch">
-        <span *ngIf = "student.year=='1st'">19 Batch (1st Year)</span>
-        <span *ngIf = "student.year=='2nd'">18 Batch (2nd Year)</span>
-        <span *ngIf = "student.year=='3rd'">17 Batch (3rd Year)</span>
-        <span *ngIf = "student.year=='4th'">16 Batch (4th Year)</span>
+        <span *ngIf="student.year=='1st'">19 Batch (1st Year)</span>
+        <span *ngIf="student.year=='2nd'">18 Batch (2nd Year)</span>
+        <span *ngIf="student.year=='3rd'">17 Batch (3rd Year)</span>
+        <span *ngIf="student.year=='4th'">16 Batch (4th Year)</span>
     </div>
 
 </mat-card>
@@ -28,10 +28,20 @@
 
         <p><b>Total Credit: </b>{{ course.credit }}</p>
         <p><b>Taken By: </b>{{ course.teacherId }}</p>
-        <p><b>CGPA Got: </b>{{ gpa[i] }}</p>
+        <p><b [id]="id[i]">CGPA Got: </b>{{ gpa[i] }}</p>
 
         <mat-action-row>
-            <a mat-button color="primary" routerLink="/edit/2017831046">Update CGPA</a>
+            <!-- <a mat-button color="primary" routerLink="/edit/2017831046">Update CGPA</a> -->
+
+            <!-- added later -->
+            <ul>
+                <li>
+                    <button color="primary" mat-raised-button (click)="openDialog(id[i])">Update CGPA</button>
+                </li>
+            </ul>
         </mat-action-row>
+
     </mat-expansion-panel>
+
+
 </mat-accordion>
