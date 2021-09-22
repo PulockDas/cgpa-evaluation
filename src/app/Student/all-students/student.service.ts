@@ -30,12 +30,12 @@ export class StudentService {
     .pipe(
       map(studentsData => {
         return {
-          students: studentsData.answer.map( (student: { registration: string; name: string; _id: string; cgpa: string; }) => {
+          students: studentsData.answer.map( (student: { registration: string; name: string; _id: string; cgpa: string; totalcredit: string}) => {
             return {
               _id: student._id,
               registration: student.registration,
               name: student.name,
-              totalCredit: student._id,
+              totalcredit: student.totalcredit,
               cgpa: student.cgpa,
             };
           })
@@ -87,11 +87,8 @@ export class StudentService {
       'cgpa': cgpa
     }
     console.log(postData);
-    this.http
-      .post<{ message: string; data: any }>( "http://localhost:3000/api/student_year", postData)
-      .subscribe(responseData => {
-        this.router.navigate(["/"]);
-      });
+    return this.http
+      .post<{ message: string; data: any }>( "http://localhost:3000/api/student_year", postData);
   }
 
 
@@ -99,6 +96,10 @@ export class StudentService {
 
   patchGPA(id: string, data: {gpa: string}){
     return this.http.put<{message: string}>("http://localhost:3000/api/student_course/" + id, data);
+  }
+
+  deleteCourseGPA(id: string){
+    return this.http.delete<{message: string}>("http://localhost:3000/api/student_course/" + id);
   }
 
 }

@@ -8,7 +8,6 @@ import { PerStudentComponent } from './Student/all-students/perStudent/per-stude
 const routes: Routes = [
   { path: "", component: AllStudentsComponent },
   { path: "create/:yearId", component: AddCGPAComponent },
-  { path: "edit/:id", component: AddCGPAComponent },
   { path: "student/:studentId", component: PerStudentComponent },
   { path: "login", component: AuthComponent },
   { path: "signup", component: AuthComponent },

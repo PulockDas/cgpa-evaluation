@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/Authentication/auth/auth.service';
 import { StudentService } from 'src/app/Student/all-students/student.service';
 
@@ -34,7 +35,11 @@ export class AddCGPAComponent implements OnInit {
   allowedCourses: any = [];
   reg: any = ''; cours: any = '';
 
-  constructor(public authService: AuthService, public activatedRoute: ActivatedRoute, public studentService: StudentService) {}
+  constructor(public authService: AuthService, 
+              public activatedRoute: ActivatedRoute, 
+              public studentService: StudentService, 
+              public router: Router,
+              private _snackBar: MatSnackBar) {}
 
   onSavePost(form: NgForm) {
     if (form.invalid) {
@@ -42,7 +47,19 @@ export class AddCGPAComponent implements OnInit {
     }
     this.isLoading = true;
     console.log(form.value);
-    this.studentService.postCGPA(form.value.reg, form.value.cours, form.value.cgpa);
+    this.studentService.postCGPA(form.value.reg, form.value.cours, form.value.cgpa)
+    .subscribe(responseData => {
+      if(responseData.message != "unsuccessful"){
+        this.router.navigate(["/"]);
+      }
+      else{
+        const snackBarRef = this._snackBar.open(responseData.message, "OK");
+
+        snackBarRef.onAction().subscribe(() => {
+          this.isLoading = false;
+        })
+      }
+    });
     // this.authService.login(form.value.email, form.value.password);
   }
 

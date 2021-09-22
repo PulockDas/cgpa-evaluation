@@ -1,8 +1,8 @@
 export interface Student {
-    _id?: string,
+    _id?: string;
     registration: string;
     name: string;
-    totalCredit: string;
+    totalcredit: string;
     cgpa: string;
     year?: string;
 }

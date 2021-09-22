@@ -131,23 +131,36 @@ app.get("/api/courses_year/:year", (req, res, next) => {
 
 app.post( "/api/student_year", (req, res) => {
 
-    console.log(req.body.studentId);
-    console.log(req.body.cgpa);
-    console.log(req.body.courseId);
-    const student_course = new Student_Course({
-      studentId: req.body.studentId,
-      courseId: req.body.courseId,
-      cgpa: req.body.cgpa
+    // console.log(req.body.studentId);
+    // console.log(req.body.cgpa);
+    // console.log(req.body.courseId);
+
+    student_course.findOne({studentId: req.body.studentId, courseId: req.body.courseId})
+    .then( (result) => {
+      
+      if(result == null){
+        const student_course = new Student_Course({
+          studentId: req.body.studentId,
+          courseId: req.body.courseId,
+          cgpa: req.body.cgpa
+        });
+        student_course.save().then(createdRecord => {
+          res.status(201).json({
+            message: "Data added successfully"
+            // data: {
+            //   ...createdRecord,
+            //   id: createdRecord._id
+            // }
+          });
+        });
+      }
+      else{
+        res.status(200).json({
+          message: "unsuccessful"});
+      }
+
     });
-    student_course.save().then(createdRecord => {
-      res.status(201).json({
-        message: "Data added successfully",
-        data: {
-          ...createdRecord,
-          id: createdRecord._id
-        }
-      });
-    });
+    
 });
 
 app.put("/api/student_course/:id", (req, res) => {
@@ -157,6 +170,13 @@ app.put("/api/student_course/:id", (req, res) => {
   })
 
   res.json({message: "gpa updated successfully!"});
+})
+
+app.delete("/api/student_course/:id", (req, res) => {
+  student_course.deleteOne({ _id: req.params.id})
+  .then( () => {
+    res.status(200).json({message: "Successfully deleted!"});
+  } );
 })
 
 

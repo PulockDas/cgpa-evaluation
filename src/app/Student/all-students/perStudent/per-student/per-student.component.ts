@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../Course.model';
 import { Student } from '../../student.model';
@@ -51,14 +52,17 @@ export class PerStudentComponent implements OnInit {
   student: Student = {
     registration: "2017831047",
     name: "bala",
-    totalCredit: "120",
+    totalcredit: "120",
     cgpa: "3.45",
     year: "3rd"
   };
 
   updatedgpa: string = '';
 
-  constructor(public route: ActivatedRoute, public studentService: StudentService, public dialog: MatDialog) { }
+  constructor(public route: ActivatedRoute, 
+              public studentService: StudentService, 
+              public dialog: MatDialog,
+              private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -72,7 +76,7 @@ export class PerStudentComponent implements OnInit {
             this.student = {
               registration: studentData.registration,
               name: studentData.name,
-              totalCredit: studentData.totalcredit,
+              totalcredit: studentData.totalcredit,
               cgpa: studentData.cgpa,
               year: studentData.year
             };
@@ -119,5 +123,19 @@ export class PerStudentComponent implements OnInit {
       }
     });
   }
+  
+  openWarnDialog(id: string): void {
+    const snackbarRef = this._snackBar.open("Are you sure?", "Yes");
+
+    snackbarRef.onAction().subscribe(() => {
+      this.studentService.deleteCourseGPA(id).subscribe(
+        res => {
+          console.log(res.message);
+          window.location.reload();
+        }
+      );
+    });
+  }
+
 
 }
