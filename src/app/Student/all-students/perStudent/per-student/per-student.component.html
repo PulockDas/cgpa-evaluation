@@ -27,7 +27,8 @@
         </mat-expansion-panel-header>
 
         <p><b>Total Credit: </b>{{ course.credit }}</p>
-        <p><b>Taken By: </b>{{ course.teacherId }}</p>
+        <!-- <p><b>Taken By: </b>{{ course.teacherId }}</p> -->
+        <p><b>Taken By: </b><button color="primary" mat-raised-button (click)="teacherDetails(course.teacherId)">See Details</button></p>
         <p><b [id]="id[i]">CGPA Got: </b>{{ gpa[i] }}</p>
 
         <mat-action-row>

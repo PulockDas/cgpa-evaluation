@@ -102,4 +102,7 @@ export class StudentService {
     return this.http.delete<{message: string}>("http://localhost:3000/api/student_course/" + id);
   }
 
+  getTeacherDetails(id: string){
+    return this.http.get<{teacher: any, courses: any}>('http://localhost:3000/api/teacher/'+id);
+  }
 }

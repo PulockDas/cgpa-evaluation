@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../Course.model';
 import { Student } from '../../student.model';
 import { StudentService } from '../../student.service';
+import { BottomSheetOverviewExampleSheet } from './Bottom Sheet/BottomSheetOverviewExampleSheet.component';
 import { DialogOverviewExampleDialog } from './dialog_box/dialog-overview-example.component';
 
 @Component({
@@ -41,6 +43,8 @@ export class PerStudentComponent implements OnInit {
     // }
   ];
 
+  showdetails: boolean = false;
+
   gpa: any=[
     // '4.0', '3.5', '3.75'
   ];
@@ -60,9 +64,10 @@ export class PerStudentComponent implements OnInit {
   updatedgpa: string = '';
 
   constructor(public route: ActivatedRoute, 
-              public studentService: StudentService, 
+              public studentService: StudentService,
               public dialog: MatDialog,
-              private _snackBar: MatSnackBar) { }
+              private _snackBar: MatSnackBar,
+              private _bottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -137,5 +142,15 @@ export class PerStudentComponent implements OnInit {
     });
   }
 
+  teacherDetails(id: string){
+    this.studentService.getTeacherDetails(id)
+      .subscribe(data => {
+        if(data){
+          this.showdetails = true;
+          this._bottomSheet.open(BottomSheetOverviewExampleSheet, {data: {teacher: data.teacher, courses: data.courses}});
+          console.log(data);
+        }
+      });
+  }
 
 }

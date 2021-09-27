@@ -1,10 +1,17 @@
 <mat-toolbar color="primary">
   <span>
-    <a routerLink="/">MyMessages</a>
+    <a routerLink="/">Home</a>
   </span>
   <span class="spacer"></span>
   <ul>
-    <li *ngIf="userIsAuthenticated">
+    <button mat-button [matMenuTriggerFor]="menu" *ngIf="userIsAuthenticated">New Entry</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/create/1st" >1st Year</button>
+      <button mat-menu-item routerLink="/create/2nd" >2nd Year</button>
+      <button mat-menu-item routerLink="/create/3rd" >3rd Year</button>
+      <button mat-menu-item routerLink="/create/4th" >4th Year</button>
+    </mat-menu>
+    <!-- <li *ngIf="userIsAuthenticated">
       <a mat-button routerLink="/create/1st" routerLinkActive="mat-accent">1st Year</a>
     </li>
     <li>
@@ -17,7 +24,7 @@
 
     <li>
       <a mat-button routerLink="/create/4th" routerLinkActive="mat-accent">4th Year</a>
-    </li>
+    </li> -->
 
     <li *ngIf="userIsAuthenticated">
       <button mat-button (click)="onLogout()">Logout</button>

@@ -26,6 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { BottomSheetOverviewExampleSheet } from './Student/all-students/perStudent/per-student/Bottom Sheet/BottomSheetOverviewExampleSheet.component';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     AuthComponent,
     AddCGPAComponent,
     HeaderComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    BottomSheetOverviewExampleSheet
   ],
   imports: [
     BrowserModule,
@@ -54,7 +59,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatTableModule,
     HttpClientModule,
     MatButtonToggleModule,
-    MatDialogModule
+    MatDialogModule,
+    MatBottomSheetModule,
+    MatListModule,
+    MatMenuModule
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent]
