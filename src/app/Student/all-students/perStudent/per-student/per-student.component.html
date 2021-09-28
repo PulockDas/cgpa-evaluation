@@ -31,7 +31,7 @@
         <p><b>Taken By: </b><button color="primary" mat-raised-button (click)="teacherDetails(course.teacherId)">See Details</button></p>
         <p><b [id]="id[i]">CGPA Got: </b>{{ gpa[i] }}</p>
 
-        <mat-action-row>
+        <mat-action-row *ngIf="userIsAuthenticated">
             <!-- <a mat-button color="primary" routerLink="/edit/2017831046">Update CGPA</a> -->
 
             <!-- added later -->

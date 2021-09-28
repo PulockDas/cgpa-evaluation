@@ -22,7 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { HeaderComponent } from './header/header.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,6 +30,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { BottomSheetOverviewExampleSheet } from './Student/all-students/perStudent/per-student/Bottom Sheet/BottomSheetOverviewExampleSheet.component';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { AuthInterceptor } from './Authentication/auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatListModule,
     MatMenuModule
   ],
-  providers: [MatSnackBar],
+  providers: [MatSnackBar, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

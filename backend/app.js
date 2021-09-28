@@ -1,10 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const checkAuth = require("./middleware/check-auth");
 
 const Course = require("./models/course");
 const Student = require("./models/student");
 const Student_Course = require("./models/student_course");
 const Teacher = require("./models/teacher");
+const User = require("./models/user");
 
 const mongoose = require('mongoose');
 const student_course = require("./models/student_course");
@@ -130,7 +134,7 @@ app.get("/api/courses_year/:year", (req, res, next) => {
 
 // all post end points
 
-app.post("/api/student_year", (req, res) => {
+app.post("/api/student_year", checkAuth, (req, res) => {
 
   // console.log(req.body.studentId);
   // console.log(req.body.cgpa);
@@ -165,7 +169,7 @@ app.post("/api/student_year", (req, res) => {
 
 });
 
-app.put("/api/student_course/:id", (req, res) => {
+app.put("/api/student_course/:id", checkAuth, (req, res) => {
   student_course.updateOne({ _id: req.params.id }, { cgpa: req.body.gpa })
     .then(() => {
       res.status(201).json({ message: "Updated successfully!" });
@@ -174,7 +178,7 @@ app.put("/api/student_course/:id", (req, res) => {
   res.json({ message: "gpa updated successfully!" });
 })
 
-app.delete("/api/student_course/:id", (req, res) => {
+app.delete("/api/student_course/:id", checkAuth, (req, res) => {
   student_course.deleteOne({ _id: req.params.id })
     .then(() => {
       res.status(200).json({ message: "Successfully deleted!" });
@@ -202,5 +206,64 @@ app.get("/api/teacher/:id", (req, res) => {
     });
 });
 
+app.post("/api/user/signup", (req, res, next) => {
+  bcrypt.hash(req.body.password, 10)
+  .then(hash => {
+    const user = new User({
+      email: req.body.email,
+      password: hash
+    });
+
+    user.save()
+      .then(result => {
+        res.status(201).json({
+          message: "User Created",
+          result: result
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: err
+        });
+      })
+  });
+})
+
+app.post("/api/user/login", (req, res, next) => {
+  let fetchedUser;
+  User.findOne({email: req.body.email})
+    .then(user => {
+      if (!user){
+        return res.status(401).json({
+          message: "Auth Failed"
+        });
+      }
+
+      fetchedUser = user;
+      return bcrypt.compare(req.body.password, fetchedUser.password);
+    })
+    .then(result => {
+      if (!result) {
+        return res.status(401).json({
+          message: "Auth failed"
+        });
+      }
+
+      const token = jwt.sign(
+        { email: fetchedUser.email, userId: fetchedUser._id },
+        "secret_this_should_be_longer",
+        { expiresIn: "1h" }
+      );
+      res.status(200).json({
+        token: token,
+        expiresIn: 3600
+      });
+    })
+    .catch(err => {
+      return res.status(401).json({
+        message: "Auth failed"
+      });
+    });
+})
 
 module.exports = app;

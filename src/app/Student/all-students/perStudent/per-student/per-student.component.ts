@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/Authentication/auth/auth.service';
 import { Course } from '../../Course.model';
 import { Student } from '../../student.model';
 import { StudentService } from '../../student.service';
@@ -14,7 +15,7 @@ import { DialogOverviewExampleDialog } from './dialog_box/dialog-overview-exampl
   templateUrl: './per-student.component.html',
   styleUrls: ['./per-student.component.css']
 })
-export class PerStudentComponent implements OnInit {
+export class PerStudentComponent implements OnInit, OnDestroy {
 
   courses: Course[] = [
     // {
@@ -45,7 +46,7 @@ export class PerStudentComponent implements OnInit {
 
   showdetails: boolean = false;
 
-  gpa: any=[
+  gpa: any = [
     // '4.0', '3.5', '3.75'
   ];
 
@@ -62,12 +63,15 @@ export class PerStudentComponent implements OnInit {
   };
 
   updatedgpa: string = '';
+  private sub: any;
+  public userIsAuthenticated: boolean = false;
 
-  constructor(public route: ActivatedRoute, 
-              public studentService: StudentService,
-              public dialog: MatDialog,
-              private _snackBar: MatSnackBar,
-              private _bottomSheet: MatBottomSheet) { }
+  constructor(public route: ActivatedRoute,
+    public studentService: StudentService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private _bottomSheet: MatBottomSheet,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -86,30 +90,31 @@ export class PerStudentComponent implements OnInit {
               year: studentData.year
             };
 
-            console.log(this.student);
+            // console.log(this.student);
           }
         });
 
         this.studentService.getCourses(this.studentId)
-        .subscribe(courseData => {
+          .subscribe(courseData => {
 
-          if (courseData) {
-            this.courses = courseData.allcourses;
-            this.gpa = courseData.cgpa;
-            this.id = courseData.id;
+            if (courseData) {
+              this.courses = courseData.allcourses;
+              this.gpa = courseData.cgpa;
+              this.id = courseData.id;
 
-            console.log(this.courses);
-          }
-        });
-
+              // console.log(this.courses);
+            }
+          });
       }
     });
+
+    this.userIsAuthenticated = this.authService.getIsAuth();
   }
 
   openDialog(id: string): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: '250px',
-      data: {gpa: this.updatedgpa}
+      data: { gpa: this.updatedgpa }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -118,17 +123,17 @@ export class PerStudentComponent implements OnInit {
 
       console.log(this.updatedgpa);
 
-      if(this.updatedgpa){
-        this.studentService.patchGPA(id, {gpa: this.updatedgpa})
-        .subscribe((response) => {
-          console.log("successfull");
+      if (this.updatedgpa) {
+        this.studentService.patchGPA(id, { gpa: this.updatedgpa })
+          .subscribe((response) => {
+            console.log("successfull");
 
-          window.location.reload();
-        });
+            window.location.reload();
+          });
       }
     });
   }
-  
+
   openWarnDialog(id: string): void {
     const snackbarRef = this._snackBar.open("Are you sure?", "Yes");
 
@@ -142,15 +147,18 @@ export class PerStudentComponent implements OnInit {
     });
   }
 
-  teacherDetails(id: string){
+  teacherDetails(id: string) {
     this.studentService.getTeacherDetails(id)
       .subscribe(data => {
-        if(data){
+        if (data) {
           this.showdetails = true;
-          this._bottomSheet.open(BottomSheetOverviewExampleSheet, {data: {teacher: data.teacher, courses: data.courses}});
+          this._bottomSheet.open(BottomSheetOverviewExampleSheet, { data: { teacher: data.teacher, courses: data.courses } });
           console.log(data);
         }
       });
+  }
+
+  ngOnDestroy() {
   }
 
 }
