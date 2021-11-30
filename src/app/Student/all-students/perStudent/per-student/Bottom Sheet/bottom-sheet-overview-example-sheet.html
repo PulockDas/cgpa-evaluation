@@ -1,0 +1,17 @@
+<mat-nav-list>
+    <a mat-list-item (click)="openLink($event)">
+      <span mat-line>{{data.teacher['teacher name']}}</span>
+      <span mat-line>{{data.teacher['teacher id']}}</span>
+    </a>
+  
+    <a mat-list-item (click)="openLink($event)">
+      <span mat-line>{{data.teacher['dept']}}</span>
+      <span mat-line>Department</span>
+    </a>
+  
+    <a href="https://plus.google.com/" mat-list-item (click)="openLink($event)">
+      <span mat-line *ngFor="let course of data.courses">{{course}}, </span>
+      <span mat-line>All courses taken</span>
+    </a>
+    
+  </mat-nav-list>
