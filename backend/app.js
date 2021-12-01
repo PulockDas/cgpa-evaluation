@@ -155,12 +155,12 @@ app.post("/api/student_year", checkAuth, (req, res) => {
           Student.findById(req.body.studentId).then(student => {
             if (student) {
 
-              const cgpa = parseFloat(student.cgpa);
+              let cgpa = parseFloat(student.cgpa);
               let totalcredit = parseFloat(student.totalcredit);
 
               Course.findById(req.body.courseId).then(course => {
                 if(course){
-                  const credit = parseFloat(course.credit);
+                  let credit = parseFloat(course.credit);
                   let updatedCGPA = (totalcredit*cgpa + credit*parseFloat(req.body.cgpa))/(totalcredit+credit);
                   
                   updatedCGPA = updatedCGPA.toString();
@@ -184,6 +184,8 @@ app.post("/api/student_year", checkAuth, (req, res) => {
             }
           });
 
+
+
           // res.status(201).json({
           //   message: "Data added successfully"
           //   // data: {
@@ -204,12 +206,50 @@ app.post("/api/student_year", checkAuth, (req, res) => {
 });
 
 app.put("/api/student_course/:id", checkAuth, (req, res) => {
-  student_course.updateOne({ _id: req.params.id }, { cgpa: req.body.gpa })
-    .then(() => {
-      res.status(201).json({ message: "Updated successfully!" });
+
+  console.log("asche");
+  student_course.findOneAndUpdate({ _id: req.params.id }, { cgpa: req.body.gpa })
+    .then((data) => {
+
+      console.log("The data "+data);
+      // new code
+          Student.findById(data.studentId).then(student => {
+            if (student) {
+
+              let cgpa = parseFloat(student.cgpa);
+              let totalcredit = parseFloat(student.totalcredit);
+
+              Course.findById(data.courseId).then(course => {
+                if(course){
+                  let credit = parseFloat(course.credit);
+                  let updatedCGPA = (totalcredit*cgpa + credit*parseFloat(data.cgpa))/(totalcredit+credit);
+                  
+                  updatedCGPA = updatedCGPA.toString();
+                  totalcredit += credit;
+                  totalcredit = totalcredit.toString();
+
+                  Student.updateOne({ _id:data.studentId }, { cgpa: updatedCGPA, totalcredit: totalcredit }).then(() => {
+                    console.log("Congrats!");
+                    res.status(201).json({ message: "Data updated and Other entities Updated successfully!" });
+                  });
+                }
+                else{
+                  res.status(404).json({ message: "Student found but Course not found! Data updated." });
+                }
+              })
+
+              // res.status(200).json(student);
+              // console.log(student);
+            } else {
+              res.status(404).json({ message: "Student not found! Data updated." });
+            }
+          });
+
+
+      // res.status(201).json({ message: "Updated successfully!" });
     })
 
-  res.json({ message: "gpa updated successfully!" });
+  // res.json({ message: "gpa updated successfully!" });
 })
 
 app.delete("/api/student_course/:id", checkAuth, (req, res) => {
