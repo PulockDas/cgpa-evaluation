@@ -150,13 +150,47 @@ app.post("/api/student_year", checkAuth, (req, res) => {
           cgpa: req.body.cgpa
         });
         student_course.save().then(createdRecord => {
-          res.status(201).json({
-            message: "Data added successfully"
-            // data: {
-            //   ...createdRecord,
-            //   id: createdRecord._id
-            // }
+
+          // new code
+          Student.findById(req.body.studentId).then(student => {
+            if (student) {
+
+              const cgpa = parseFloat(student.cgpa);
+              let totalcredit = parseFloat(student.totalcredit);
+
+              Course.findById(req.body.courseId).then(course => {
+                if(course){
+                  const credit = parseFloat(course.credit);
+                  let updatedCGPA = (totalcredit*cgpa + credit*parseFloat(req.body.cgpa))/(totalcredit+credit);
+                  
+                  updatedCGPA = updatedCGPA.toString();
+                  totalcredit += credit;
+                  totalcredit = totalcredit.toString();
+
+                  Student.updateOne({ _id:req.body.studentId }, { cgpa: updatedCGPA, totalcredit: totalcredit }).then(() => {
+                    console.log("Congrats!");
+                    res.status(201).json({ message: "Data Added and Updated successfully!" });
+                  });
+                }
+                else{
+                  res.status(404).json({ message: "Student found but Course not found! Course_STudent added." });
+                }
+              })
+
+              // res.status(200).json(student);
+              // console.log(student);
+            } else {
+              res.status(404).json({ message: "Student not found! Course_Student added." });
+            }
           });
+
+          // res.status(201).json({
+          //   message: "Data added successfully"
+          //   // data: {
+          //   //   ...createdRecord,
+          //   //   id: createdRecord._id
+          //   // }
+          // });
         });
       }
       else {
